@@ -162,8 +162,12 @@ type AppContextValue = {
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
-const AUTH_STORAGE_KEY = "foodapp.authenticated";
-const ONBOARDING_STORAGE_KEY = "foodapp.onboardingComplete";
+const AUTH_STORAGE_KEY = "cravedash.authenticated";
+const ONBOARDING_STORAGE_KEY = "cravedash.onboardingComplete";
+const LEGACY_STORAGE_KEYS = [
+  "foodapp.authenticated",
+  "foodapp.onboardingComplete",
+];
 
 const colors = {
   primary: "#E83F4F",
@@ -609,7 +613,7 @@ const recentOrders: RecentOrder[] = [
     total: 678,
     status: "Delivered",
     image:
-      "https://images.unsplash.com/photo-1563379091339-03246963d4a9?auto=format&fit=crop&w=500&q=80",
+      "data:image/jpeg;base64,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",
   },
   {
     id: "cd-1139",
@@ -716,13 +720,12 @@ function AppProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     async function restoreState() {
       try {
-        const [savedAuth, savedOnboarding] = await Promise.all([
-          AsyncStorage.getItem(AUTH_STORAGE_KEY),
-          AsyncStorage.getItem(ONBOARDING_STORAGE_KEY),
+        await AsyncStorage.multiRemove([
+          AUTH_STORAGE_KEY,
+          ...LEGACY_STORAGE_KEYS,
         ]);
-
-        setIsAuthenticated(savedAuth === "true");
-        setHasCompletedOnboarding(savedOnboarding === "true");
+        setIsAuthenticated(false);
+        setHasCompletedOnboarding(false);
       } finally {
         setIsLoading(false);
       }
@@ -732,13 +735,18 @@ function AppProvider({ children }: PropsWithChildren) {
   }, []);
 
   const signIn = useCallback(async () => {
-    await AsyncStorage.setItem(AUTH_STORAGE_KEY, "true");
+    await Promise.all([
+      AsyncStorage.setItem(AUTH_STORAGE_KEY, "true"),
+      AsyncStorage.removeItem(ONBOARDING_STORAGE_KEY),
+    ]);
+    setHasCompletedOnboarding(false);
     setIsAuthenticated(true);
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.removeItem(AUTH_STORAGE_KEY);
+    await AsyncStorage.multiRemove([AUTH_STORAGE_KEY, ONBOARDING_STORAGE_KEY]);
     setCartItems([]);
+    setHasCompletedOnboarding(false);
     setIsAuthenticated(false);
   }, []);
 
@@ -984,6 +992,7 @@ function LoadingScreen() {
 
 function LoginScreen() {
   const { signIn } = useFoodApp();
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [phone, setPhone] = useState("98765 43210");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -1016,6 +1025,40 @@ function LoginScreen() {
       </View>
 
       <View style={styles.authPanel}>
+        <View style={styles.authModeSwitch}>
+          <Pressable
+            style={[
+              styles.authModeOption,
+              authMode === "login" && styles.authModeOptionActive,
+            ]}
+            onPress={() => setAuthMode("login")}
+          >
+            <Text
+              style={[
+                styles.authModeText,
+                authMode === "login" && styles.authModeTextActive,
+              ]}
+            >
+              Login
+            </Text>
+          </Pressable>
+          <Pressable
+            style={[
+              styles.authModeOption,
+              authMode === "signup" && styles.authModeOptionActive,
+            ]}
+            onPress={() => setAuthMode("signup")}
+          >
+            <Text
+              style={[
+                styles.authModeText,
+                authMode === "signup" && styles.authModeTextActive,
+              ]}
+            >
+              Sign up
+            </Text>
+          </Pressable>
+        </View>
         <Text style={styles.inputLabel}>Mobile number</Text>
         <View style={styles.inputWrap}>
           <Text style={styles.countryCode}>+91</Text>
@@ -1039,7 +1082,13 @@ function LoginScreen() {
         >
           <Ionicons name="log-in-outline" size={19} color={colors.surface} />
           <Text style={styles.primaryButtonText}>
-            {isSubmitting ? "Signing in" : "Continue"}
+            {isSubmitting
+              ? authMode === "login"
+                ? "Logging in"
+                : "Creating account"
+              : authMode === "login"
+                ? "Login"
+                : "Sign up"}
           </Text>
         </Pressable>
         <View style={styles.authTrustRow}>
@@ -1289,6 +1338,8 @@ function RestaurantDetailScreen({
   const restaurant =
     restaurants.find((item) => item.id === route.params.restaurantId) ??
     restaurants[0];
+  const restaurantName = route.params.restaurantName ?? restaurant.name;
+  const startingPrice = route.params.price ?? restaurant.price;
   const visibleMenu = restaurant.menu.filter((dish) => {
     if (selectedFilter === "Veg") {
       return dish.veg;
@@ -1306,7 +1357,7 @@ function RestaurantDetailScreen({
       id: `${restaurant.id}-${dish.id}`,
       name: dish.name,
       price: dish.price,
-      restaurantName: restaurant.name,
+      restaurantName,
       image: dish.image,
     });
   }
@@ -1322,7 +1373,7 @@ function RestaurantDetailScreen({
           <FoodImage
             source={restaurant.image}
             style={styles.detailHeroImage}
-            alt={restaurant.name}
+            alt={restaurantName}
           />
           <View style={styles.detailShade} />
           <SafeAreaView style={styles.detailTopOverlay} edges={["top"]}>
@@ -1357,7 +1408,7 @@ function RestaurantDetailScreen({
           </SafeAreaView>
           <View style={styles.detailHeroText}>
             <Text style={styles.detailTag}>{restaurant.tag}</Text>
-            <Text style={styles.detailTitle}>{restaurant.name}</Text>
+            <Text style={styles.detailTitle}>{restaurantName}</Text>
             <Text style={styles.detailSubtitle}>{restaurant.cuisine}</Text>
           </View>
         </View>
@@ -1390,7 +1441,7 @@ function RestaurantDetailScreen({
               <Text style={styles.sectionTitle}>Menu</Text>
               <Text style={styles.sectionCopy}>
                 {restaurant.menu.length} dishes from{" "}
-                {formatPrice(restaurant.price)}
+                {formatPrice(startingPrice)}
               </Text>
             </View>
             <View style={styles.vegLegend}>
@@ -1433,7 +1484,7 @@ function RestaurantDetailScreen({
             <MenuDishCard
               key={dish.id}
               dish={dish}
-              restaurantName={restaurant.name}
+              restaurantName={restaurantName}
               onAdd={() => handleAddToCart(dish)}
             />
           ))}
@@ -2442,6 +2493,32 @@ const styles = StyleSheet.create({
   authPanel: {
     padding: 20,
     gap: 14,
+  },
+  authModeSwitch: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: 8,
+    padding: 4,
+    backgroundColor: colors.surface,
+  },
+  authModeOption: {
+    flex: 1,
+    minHeight: 42,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+  },
+  authModeOptionActive: {
+    backgroundColor: colors.primary,
+  },
+  authModeText: {
+    color: colors.muted,
+    fontSize: 14,
+    fontWeight: "900",
+  },
+  authModeTextActive: {
+    color: colors.surface,
   },
   inputLabel: {
     color: colors.ink,
