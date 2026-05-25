@@ -1,54 +1,46 @@
 # Food Delivery App UI
 
-An Expo React Native app focused on React Navigation patterns: auth flow,
-stack navigation, nested tabs, drawer navigation, params, persisted mock auth,
-tab badges, transitions, programmatic navigation, and deep linking.
+A short Expo React Native demo app for navigation patterns: auth flow, stack +
+bottom-tab nesting, drawer navigation, route params, persisted auth, tab badge,
+transitions, and deep linking.
 
-## Navigation Structure
+## Navigation Diagram
 
 ```text
-Root NavigationContainer
-|
-|-- Auth flow when logged out
-|   `-- LoginStack
-|       `-- Login
-|
-`-- App flow when logged in
-    `-- AppStack
-        |-- Onboarding
-        `-- Main Drawer
-            |-- FoodTabs (hidden drawer item)
-            |   |-- HomeTab
-            |   |   `-- RestaurantStack
-            |   |       |-- Home
-            |   |       |-- RestaurantDetail
-            |   |       `-- Cart
-            |   |-- Search
-            |   |-- Orders
-            |   `-- Profile
-            |-- My Orders
-            |-- Settings
-            |-- Help
-            `-- Logout (custom drawer action)
+NavigationContainer
+├─ Auth
+│  └─ Login
+└─ App
+   ├─ Onboarding
+   └─ Main Drawer
+      ├─ FoodTabs
+      │  ├─ HomeTab -> RestaurantStack
+      │  │   ├─ Home
+      │  │   ├─ RestaurantDetail
+      │  │   └─ Cart
+      │  ├─ Search
+      │  ├─ Orders
+      │  └─ Profile
+      ├─ My Orders
+      ├─ Settings
+      ├─ Help
+      └─ Logout
 ```
 
-## What Is Implemented
+## Features
 
-- Login stack for unauthenticated users.
-- Mock auth persisted with AsyncStorage.
-- Onboarding screen with `Get Started`, then `replace("Main")`.
-- Home stack flow: Home -> Restaurant Detail -> Cart.
-- Home passes `restaurantName` and `price` route params into Restaurant Detail.
-- Custom native stack header with title, `Back` label, and orange header color.
-- Bottom tabs for Home, Search, Orders, and Profile using vector icons.
-- Orders tab badge appears when the cart has items.
-- Restaurant stack is nested inside the Home tab.
-- Tab bar hides on Restaurant Detail and Cart.
-- Profile opens the drawer with My Orders, Settings, Help, and Logout.
-- Drawer content includes a user avatar and name.
-- Screen animations are configured on stack navigators.
-- Programmatic navigation examples: `navigate`, `goBack`, `replace`, and `reset`.
-- Deep link: `foodapp://restaurant/123`.
+- Auth flow: unauthenticated users see `Login`, authenticated users see app.
+- Mock auth state is persisted with `AsyncStorage`.
+- Onboarding screen before entering the main app.
+- Home route navigates to `RestaurantDetail` and `Cart`.
+- Restaurant route params include `restaurantName` and `price`.
+- Bottom tabs for Home, Search, Orders, and Profile with vector icons.
+- Orders tab badge appears when cart has items.
+- Drawer menu accessible from Profile and the Home drawer button.
+- Drawer includes `My Orders`, `Settings`, `Help`, and `Logout`.
+- Custom drawer content with user avatar and display name.
+- Hide bottom tab bar on `RestaurantDetail` and `Cart` screens.
+- Deep link support for `foodapp://restaurant/123`.
 
 ## Deep Link
 
@@ -61,9 +53,6 @@ The app scheme is configured in `app.json`:
   }
 }
 ```
-
-Opening `foodapp://restaurant/123` routes directly to the Restaurant Detail
-screen when the user is authenticated.
 
 ## Run
 
