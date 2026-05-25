@@ -1,16 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import type {
-  NativeStackHeaderProps,
-  NativeStackNavigationProp,
+    NativeStackHeaderProps
 } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import {
-  Pressable,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, SafeAreaView, StyleSheet, Text, View } from "react-native";
 
 const colors = {
   primary: "#E83F4F",
@@ -56,11 +48,7 @@ export function CustomStackHeader({
             ]}
             hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           >
-            <Ionicons
-              name="chevron-back"
-              size={28}
-              color={backButtonColor}
-            />
+            <Ionicons name="chevron-back" size={28} color={backButtonColor} />
           </Pressable>
         ) : (
           <View style={styles.backButton} />
